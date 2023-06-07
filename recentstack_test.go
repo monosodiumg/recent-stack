@@ -1,17 +1,21 @@
 package recentstack_test
 
-import ( 
+import (
 	"monosodiumg/ds"
 	"testing"
-
 )
-                  
+
 func TestNew(t *testing.T) {
-	
+
 	tests := []struct {
 		name    string
 		wantErr bool
 	}{
+		{
+			name:    "err",
+			wantErr: true,
+		},
+		
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
@@ -22,4 +26,3 @@ func TestNew(t *testing.T) {
 		})
 	}
 }
-
