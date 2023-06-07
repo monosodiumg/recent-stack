@@ -41,7 +41,7 @@ jobs:
           threshold-total: 95
       - name: make coverage badge
         uses: action-badges/core@0.2.2
-        if: contains(github.ref, 'main') ||contains(github.ref, 'init')
+        if: contains(github.ref, 'main') || contains(github.ref, 'init')
         with:
           label: coverage
           message: ${{ steps.coverage.outputs.badge-text }}
