@@ -13,7 +13,7 @@ func TestNew(t *testing.T) {
 	}{
 		{
 			name:    "err",
-			wantErr: false,
+			wantErr: true,
 		},
 		
 		// TODO: Add test cases.
