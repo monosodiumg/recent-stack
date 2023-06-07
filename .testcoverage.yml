@@ -1,22 +1,22 @@
-# (mandatory) 
+# (mandatory)
 # Path to coverprofile file (output of `go test -coverprofile` command)
 profile: cover.out
 
-# (optional) 
+# (optional)
 # When specified reported file paths will not contain local prefix in the output
 local-prefix: "github.com/org/project"
 
 # Holds coverage thresholds percentages, values should be in range [0-100]
 threshold:
-  # (optional; default 0) 
+  # (optional; default 0)
   # The minimum coverage that each file should have
   file: 80
 
-  # (optional; default 0) 
+  # (optional; default 0)
   # The minimum coverage that each package should have
   package: 80
 
-  # (optional; default 0) 
+  # (optional; default 0)
   # The minimum total coverage project should have
   total: 95
 
@@ -30,9 +30,9 @@ override:
 exclude:
   # Exclude files or packages matching their paths
   paths:
-    - \.pb\.go$    # excludes all protobuf generated files
-    - ^pkg/bar     # exclude package `pkg/bar`
- 
+    - \.pb\.go$ # excludes all protobuf generated files
+    - ^pkg/bar # exclude package `pkg/bar`
+
 # NOTES:
 # - symbol `/` in all path regexps will be replaced by
 #   current OS file path separator to properly work on Windows
