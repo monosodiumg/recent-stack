@@ -10,13 +10,26 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/setup-go@v3
-      with:
-        go-version: ${{ matrix.go-version }}
-    - uses: actions/checkout@v3
-    - run: make test_cover
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+      - uses: actions/checkout@v3
+
+      - name: go_test
+        id: go_test
+        run: make test_cover
+
+      - name: make coverage badge
+        uses: action-badges/core@0.2.2
+        if: contains(github.ref, 'main') || contains(github.ref, 'init')
+        with:
+          label: coverage
+          message: ${{ steps.go_test.outputs.badge-text }}
+          message-color: ${{ steps.go_test.outputs.badge-color }}
+          file-name: coverage.svg
+          badge-branch: badges ## orphan branch where badge will be committed
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
   covcheck:
     name: Go test coverage check
     runs-on: ubuntu-latest
