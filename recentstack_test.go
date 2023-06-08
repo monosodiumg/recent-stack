@@ -1,27 +1,29 @@
 package recentstack_test
 
 import (
-	"monosodiumg/ds"
+	"reflect"
 	"testing"
+	rs "monosodiumg/ds"
 )
 
+type (
+	bb = []byte
+)
 func TestNew(t *testing.T) {
-
+	type args struct {
+		capacity int
+	}
 	tests := []struct {
-		name    string
-		wantErr bool
+		name string
+		args args
+		want rs.RecentStack[bb]
 	}{
-		{
-			name:    "err",
-			wantErr: true,
-		},
-		
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := recentstack.New(); (err != nil) != tt.wantErr {
-				t.Errorf("New() error = %v, wantErr %v", err, tt.wantErr)
+			if got := rs.New[bb](tt.args.capacity); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("New() = %v, want %v", got, tt.want)
 			}
 		})
 	}
