@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-go@v3
 
       - name: go_test
-        id: go_test
+        id: gotest
         run: make test_cover
 
       - name: make coverage badge
@@ -24,8 +24,8 @@ jobs:
         if: contains(github.ref, 'main') || contains(github.ref, 'init')
         with:
           label: test
-          message: ${{ steps.go_test.outputs.badge-text }}
-          message-color: ${{ steps.go_test.outputs.badge-color }}
+          message: ${{ steps.gotest.outputs.badge-text }}
+          message-color: ${{ steps.gotest.outputs.badge-color }}
           file-name: test.svg
           badge-branch: badges ## orphan branch where badge will be committed
           github-token: "${{ secrets.GITHUB_TOKEN }}"
