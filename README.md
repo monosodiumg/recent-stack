@@ -1,4 +1,4 @@
-![test](https://raw.githubusercontent.com/monosodiumg/recent-stack/badges/.badges/init/coverage.svg)
+![test](https://raw.githubusercontent.com/monosodiumg/recent-stack/badges/.badges/init/test.svg)
 ![coverage](https://raw.githubusercontent.com/monosodiumg/recent-stack/badges/.badges/init/coverage.svg)
 # recent-stack
 
