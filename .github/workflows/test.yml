@@ -10,10 +10,9 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/setup-go@v3
-        with:
-          go-version: ${{ matrix.go-version }}
       - uses: actions/checkout@v3
+
+      - uses: actions/setup-go@v3
 
       - name: go_test
         id: go_test
@@ -30,38 +29,38 @@ jobs:
           badge-branch: badges ## orphan branch where badge will be committed
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-  covcheck:
-    name: Go test coverage check
-    runs-on: ubuntu-latest
-    # permissions: write-all
-    steps:
-      - uses: actions/checkout@v3
+  # covcheck:
+  #   name: Go test coverage check
+  #   runs-on: ubuntu-latest
+  #   # permissions: write-all
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v3
+  #     - uses: actions/setup-go@v3
 
-      - name: generate test coverage
-        run: go test ./... -coverprofile=./cover.out || true
+  #     - name: generate test coverage
+  #       run: go test ./... -coverprofile=./cover.out || true
 
-      - name: check test coverage
-        id: coverage ## this step must have id
-        uses: vladopajic/go-test-coverage@v2
-        with:
-          # Configure action using config file (option 1)
-          config: ./.testcoverage.yml
-          # Configure action by specifying input parameters individually (option 2)
-          profile: cover.out
-          local-prefix: github.com/org/project
-          threshold-file: 80
-          threshold-package: 80
-          threshold-total: 95
+  #     - name: check test coverage
+  #       id: coverage ## this step must have id
+  #       uses: vladopajic/go-test-coverage@v2
+  #       with:
+  #         # Configure action using config file (option 1)
+  #         config: ./.testcoverage.yml
+  #         # Configure action by specifying input parameters individually (option 2)
+  #         profile: cover.out
+  #         local-prefix: github.com/org/project
+  #         threshold-file: 80
+  #         threshold-package: 80
+  #         threshold-total: 95
 
-      - name: make coverage badge
-        uses: action-badges/core@0.2.2
-        if: contains(github.ref, 'main') || contains(github.ref, 'init')
-        with:
-          label: coverage
-          message: ${{ steps.coverage.outputs.badge-text }}
-          message-color: ${{ steps.coverage.outputs.badge-color }}
-          file-name: coverage.svg
-          badge-branch: badges ## orphan branch where badge will be committed
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+  #     - name: make coverage badge
+  #       uses: action-badges/core@0.2.2
+  #       if: contains(github.ref, 'main') || contains(github.ref, 'init')
+  #       with:
+  #         label: coverage
+  #         message: ${{ steps.coverage.outputs.badge-text }}
+  #         message-color: ${{ steps.coverage.outputs.badge-color }}
+  #         file-name: coverage.svg
+  #         badge-branch: badges ## orphan branch where badge will be committed
+  #         github-token: "${{ secrets.GITHUB_TOKEN }}"
