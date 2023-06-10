@@ -3,3 +3,12 @@
 # recent-stack
 
 A stack that discards the oldest element when full. 
+
+# TODO
+## MUST
+## SHOULD
+## COULD
+* opt: replace the deque with an array. 
+  * eliminates one layer of mutex
+  * fixed-size array avoids the reallocations in deque
+## WONT
