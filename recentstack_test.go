@@ -11,7 +11,7 @@ type (
 )
 
 func TestNew(t *testing.T) {
-	// fail on unnacceptable capacity
+	// fail on unacceptable capacity
 	s1, err := rs.New[bb](1)
 	t.Run("New(1)", func(t *testing.T) {
 		if err == nil || s1 != nil {
@@ -19,7 +19,7 @@ func TestNew(t *testing.T) {
 		}
 	})
 
-	// fail if wrong response for acceptable capcity
+	// fail if wrong response for acceptable capacity
 	s1, err = rs.New[bb](2)
 	t.Run("New(2)", func(t *testing.T) {
 		if err != nil || s1 == nil {
@@ -89,12 +89,27 @@ func TestPop(t *testing.T) {
 		s, _ := rs.New[bb](2)
 		bb1 := []byte("a")
 		s.Push(bb1)
-		s.Pop()
+		_, _ = s.Pop()
 		x, e := s.Pop()
 		if e == nil || x != nil {
 			t.Errorf("Pop() want (%v,%v), got (%v,%v)", nil, rs.ErrEmpty, x, nil)
 		}
-
 	})
 
+}
+
+func TestPush(t *testing.T) {
+	// fail if Pops don't match Pushes, with wraparound
+	t.Run("Push()", func(t *testing.T) {
+		s, _ := rs.New[bb](2)
+		bb1, bb2, bb3 := []byte("a"), []byte("b"), []byte("c")
+		s.Push(bb1)
+		s.Push(bb2)
+		s.Push(bb3)
+		x1, _ := s.Pop()
+		x2, _ := s.Pop()
+		if !reflect.DeepEqual(bb3, x1) || !reflect.DeepEqual(bb2, x2) {
+			t.Errorf("Push/Pop with three pushesand two pops expected %v,%v, got %v,%v", x1, x2, bb3, bb2)
+		}
+	})
 }

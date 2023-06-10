@@ -6,30 +6,30 @@ import (
 )
 
 type (
+	// RecentStack is a limited-capacity stack that forgets the bottom
+	// item when an item is pushed and the stack is full
 	RecentStack[T any] interface {
 		Push(T)
 		Pop() (T, error)
 		Length() int
-
 	}
 
 	recentStack[T any] struct {
 		sync.RWMutex
 		items []T
-		// logical index of top item i.e. 0 means empty and n>0 means item
-		// in physical position (bottom + n) % capacity
-		// top      int
-		bottom   int // physical index where the first item in the stack is to be found or placed.
+		// physical index where the first item in the stack is to be found or placed.
+		bottom int
+		// number of items on the stack
 		length   int
 		capacity int
 	}
-	
 )
 
 // ErrNoRows is returned by New when capacity is less than 2.
 // For a capacity of 1 you might as well just use a variable.
 var ErrTooSmall = errors.New("recentstack: minimum sensible capacity is 2")
 
+// New returns an empty stack
 func New[T any](capacity int) (RecentStack[T], error) {
 	if capacity < 2 {
 		return nil, ErrTooSmall
@@ -40,6 +40,7 @@ func New[T any](capacity int) (RecentStack[T], error) {
 	}, nil
 }
 
+// Length returns the number of items on the stack
 func (r *recentStack[T]) Length() int {
 	r.Lock()
 	defer r.Unlock()
@@ -47,6 +48,7 @@ func (r *recentStack[T]) Length() int {
 	return r.length
 }
 
+// Pushes an item onto the stack. If the stack is already full then the bottom item will be lost
 func (r *recentStack[T]) Push(x T) {
 	r.Lock()
 	defer r.Unlock()
@@ -72,4 +74,3 @@ func (r *recentStack[T]) Pop() (T, error) {
 		return x, nil
 	}
 }
-
